@@ -1,0 +1,107 @@
+---
+title: ""
+output: md_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
+```
+
+## Overview
+
+The package creates a new `Geom`, `geom_design`, which can be used alongside `ggplot2` to depict experimental designs. Note that all the usual `ggplot` machinery can be used. 
+
+### Installation
+
+```{r, eval = FALSE}
+devtools::install_github("cmjt/ggdesign")
+```
+
+## Using `geom_design()`
+
+Below are some options showing how you might plot some well known designs. The `R` package `agricolae` is used to simulate the different designs.
+
+```{r}
+library(ggplot2)
+library(ggdesign)
+library(agricolae)
+```
+
+
+### Completely Randomised Design (CRD)
+
+```{r}
+set.seed(1642)
+trt <- c("A", "B", "C")
+crd <- agricolae::design.crd(trt = trt, r = 2)$book
+crd
+ggplot(crd, aes(plots = plots, fill = trt)) +
+    geom_design()
+```
+ 
+#### We can change those default colours {-}
+
+```{r}
+ggplot(crd, aes(plots = plots, fill = trt)) +
+    geom_design() + scale_fill_brewer(palette = "Dark2")
+```
+
+#### We can change the type of unit {-}
+
+```{r}
+ggplot(crd, aes(plots = plots, fill = trt)) +
+    geom_design(type = "hex") + scale_fill_brewer(palette = "Dark2")
+```
+
+### Randomised Complete Block Design (RCBD)
+
+```{r}
+set.seed(1647)
+trt <- c("A", "B", "C")
+rcbd <- agricolae::design.rcbd(trt = trt, r = 3)$book
+rcbd
+```
+```{r}
+ggplot(rcbd, aes(plots = plots, fill = trt, block = block)) +
+    geom_design() + scale_fill_brewer(palette = "Dark2")
+```
+
+### Factorial Design
+
+```{r}
+set.seed(7861)
+fact <- agricolae::design.ab(trt = c(3, 2), r = 2, design = "crd")$book
+fact
+```
+
+```{r}
+ggplot(fact, aes(plots = plots, fill = A, col = B, block = r)) +
+    geom_design(type = "hex") + scale_fill_brewer(palette = "Dark2")
+```
+
+### Split-plot Design 
+
+```{r}
+set.seed(8881)
+## split plot
+trt1 <- c("A", "B"); trt2 <- LETTERS[1:4]
+sp <- agricolae::design.split(trt1 = trt1, trt2 = trt2, r = 2, design = "crd")$book
+```
+
+#### Using colour for the second treatment {-}
+
+```{r}
+ggplot(sp, aes(plots = plots, fill = trt1, block = splots, col = trt2)) +
+    geom_design()
+```
+
+#### Or a different unit shape... {-}
+
+```{r}
+ggplot(sp, aes(plots = plots, fill = trt1, block = splots)) +
+    geom_design(type = "hex_tri") +
+    geom_design(aes(fill = trt2), type = "hex_tri", seg = 2) +
+    scale_fill_brewer(palette = "Paired")
+```
+
+## Working on ANOVA tables...
