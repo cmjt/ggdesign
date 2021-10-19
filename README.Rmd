@@ -46,12 +46,9 @@ ggplot(crd, aes(plots = plots, fill = trt)) +
     geom_design() + scale_fill_brewer(palette = "Dark2")
 ```
 
-#### We can change the type of unit {-}
 
-```{r}
-ggplot(crd, aes(plots = plots, fill = trt)) +
-    geom_design(type = "hex") + scale_fill_brewer(palette = "Dark2")
-```
+
+
 
 ### Randomised Complete Block Design (RCBD)
 
@@ -64,6 +61,13 @@ rcbd
 ```{r}
 ggplot(rcbd, aes(plots = plots, fill = trt, block = block)) +
     geom_design() + scale_fill_brewer(palette = "Dark2")
+```
+
+#### We can change the type of unit {-}
+
+```{r}
+ggplot(rcbd, aes(plots = plots, fill = trt, block = block)) +
+    geom_design(type = "hex") + scale_fill_brewer(palette = "Dark2")
 ```
 
 ### Factorial Design

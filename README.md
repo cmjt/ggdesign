@@ -45,13 +45,6 @@ designs.
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-4-1.png)
 
-#### We can change the type of unit
-
-    ggplot(crd, aes(plots = plots, fill = trt)) +
-        geom_design(type = "hex") + scale_fill_brewer(palette = "Dark2")
-
-![](README_files/figure-markdown_strict/unnamed-chunk-5-1.png)
-
 ### Randomised Complete Block Design (RCBD)
 
     set.seed(1647)
@@ -72,6 +65,13 @@ designs.
 
     ggplot(rcbd, aes(plots = plots, fill = trt, block = block)) +
         geom_design() + scale_fill_brewer(palette = "Dark2")
+
+![](README_files/figure-markdown_strict/unnamed-chunk-6-1.png)
+
+#### We can change the type of unit
+
+    ggplot(rcbd, aes(plots = plots, fill = trt, block = block)) +
+        geom_design(type = "hex") + scale_fill_brewer(palette = "Dark2")
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-7-1.png)
 
